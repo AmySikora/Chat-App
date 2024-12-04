@@ -22,7 +22,7 @@ const Start = ({ navigation }) => {
     >
       <View style={styles.container}>
         {/* App Title */}
-        <Text style={styles.title}>App Title</Text>
+        <Text style={styles.title}>Chat App</Text>
 
         {/* Input Field */}
         <TextInput
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   selectedColor: {
-    borderColor: '#FFFFFF', 
+    borderColor: '#FFFFFF', // Highlight selected color
   },
   button: {
     width: '88%',
