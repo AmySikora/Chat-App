@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     alignItems: "center",
-    elevation: 10, // Shadow for Android
-    shadowColor: "#000", // Shadow for iOS
+    elevation: 10,
+    shadowColor: "#000", 
     shadowOpacity: 0.1,
     shadowRadius: 5,
   },
