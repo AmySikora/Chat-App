@@ -1,32 +1,42 @@
+# **React Native Mobile Chat App**
 
-React Native Mobile Chat App
-Project Description
+## **Project Description**
 A mobile chat application built with React Native, providing users with a real-time chat interface and additional features such as sharing images and location data. This project demonstrates React Native mobile development skills using Expo and Google Firestore Database.
 
-Features
-Real-time messaging: Send and receive messages instantly.
-Media sharing: Share images from the library or camera.
-Location sharing: Send your current location via the chat interface.
-Offline access: Read past messages offline.
-Customizable theme: Choose a background color for your chat screen.
-Technologies
-Framework: React Native
-Development Tool: Expo
-Database: Google Firestore
-Storage: Firebase Cloud Storage
-Libraries:
-react-native-gifted-chat (Chat UI)
-expo-image-picker (Media sharing)
-expo-location (Location sharing)
-@react-native-async-storage/async-storage (Offline storage)
-Getting Started
-1. Prerequisites
-Node.js: Install Node.js using nvm.
-bash
-Copy code
-nvm install 16.19.0
-nvm use 16.19.0
-nvm alias default 16.19.0
+---
+
+## **Features**
+- **Real-time messaging**: Send and receive messages instantly.
+- **Media sharing**: Share images from the library or camera.
+- **Location sharing**: Send your current location via the chat interface.
+- **Offline access**: Read past messages offline.
+- **Customizable theme**: Choose a background color for your chat screen.
+
+---
+
+## **Technologies**
+- **Framework**: React Native
+- **Development Tool**: Expo
+- **Database**: Google Firestore
+- **Storage**: Firebase Cloud Storage
+
+### **Libraries**
+- `react-native-gifted-chat` (Chat UI)
+- `expo-image-picker` (Media sharing)
+- `expo-location` (Location sharing)
+- `@react-native-async-storage/async-storage` (Offline storage)
+
+---
+
+## **Getting Started**
+
+### **1. Prerequisites**
+- **Node.js**: Install Node.js using [nvm](https://github.com/nvm-sh/nvm).
+  ```bash
+  nvm install 16.19.0
+  nvm use 16.19.0
+  nvm alias default 16.19.0
+
 Expo CLI: Install Expo CLI globally.
 bash
 Copy code
