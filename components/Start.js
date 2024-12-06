@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  Image,
 } from "react-native";
 
 const Start = ({ navigation }) => {
@@ -25,12 +26,13 @@ const Start = ({ navigation }) => {
 
         {/* White Box for Input and Options */}
         <View style={styles.whiteBox}>
-          {/* Input Field */}
+          {/* Input Field with User icon */}
+          <Image source={require("../assests/icon.svg")} style={styles.icon} />
           <TextInput
             style={styles.textInput}
             value={name}
             onChangeText={setName}
-            placeholder="Your Name"
+            placeholder="Enter Your Name"
             placeholderTextColor="rgba(117, 112, 131, 0.5)"
           />
 
