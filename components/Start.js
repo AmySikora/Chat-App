@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  Image,
 } from "react-native";
 
 const Start = ({ navigation }) => {
@@ -26,20 +25,14 @@ const Start = ({ navigation }) => {
 
         {/* White Box for Input and Options */}
         <View style={styles.whiteBox}>
-          {/* Input Field with User Icon */}
-          <View style={styles.inputContainer}>
-            <Image
-              source={require("../assets/usericon.png")}
-              style={styles.icon}
-            />
-            <TextInput
-              style={styles.textInput}
-              value={name}
-              onChangeText={setName}
-              placeholder="Your Name"
-              placeholderTextColor="rgba(117, 112, 131, 0.5)"
-            />
-          </View>
+          {/* Input Field */}
+          <TextInput
+            style={styles.textInput}
+            value={name}
+            onChangeText={setName}
+            placeholder="Your Name"
+            placeholderTextColor="rgba(117, 112, 131, 0.5)"
+          />
 
           {/* Color Selection */}
           <Text style={styles.chooseColorText}>Choose Background Color:</Text>
@@ -105,29 +98,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
   },
-  inputContainer: {
-    flexDirection: "row", // Align icon and text input horizontally
-    alignItems: "center", // Vertically center the elements
+  textInput: {
+    width: "100%",
+    height: 50,
     borderWidth: 1,
     borderColor: "#757083",
     borderRadius: 5,
     paddingHorizontal: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    width: "100%", // Match parent width
-    height: 50,
-    marginBottom: 20,
-  },
-  icon: {
-    width: 24,
-    height: 24,
-    marginRight: 10,
-    tintColor: "#757083", // Adjust icon color if needed
-  },
-  textInput: {
-    flex: 1, // Take up the remaining space
     fontSize: 16,
     fontWeight: "300",
     color: "#757083",
+    marginBottom: 20,
   },
   chooseColorText: {
     fontSize: 16,
