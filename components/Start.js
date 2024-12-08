@@ -59,6 +59,10 @@ const Start = ({ navigation }) => {
 
           {/* Button */}
           <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="More options"
+            accessibilityHint="Lets you choose to send an image or your geolocation."
+            accessibilityRole="button"
             style={styles.button}
             onPress={() =>
               navigation.navigate("Chat", {

@@ -1,11 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
+import { Bubble, GiftedChat } from "react-native-gifted-chat";
 
 const Chat = ({ route, navigation }) => {
   const [messages, setMessages] = useState([]);
-
   const { name, background } = route.params; // Destructure the name and background color from Start.js
+
+  // Set the navigation bar title
+  useEffect(() => {
+    navigation.setOptions({ title: name })
+    setMessages([
+      {
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+      {
+        _id: 2,
+        text: 'This is a system message',
+        createdAt: new Date(),
+        system: true,
+      },
+    ]);
+
+  }, []);
 
   // Function to handle sending messages
   const onSend = (newMessages) => {
@@ -14,29 +37,26 @@ const Chat = ({ route, navigation }) => {
     );
   };
 
-  // Set up default messages and navigation title
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
+// creating bubble
+  const renderBubble = (props) => {
+    return <Bubble
+      {...props}
+      wrapperStyle={{
+        right: {
+          backgroundColor: "#000"
         },
-      },
-    ]);
-
-    // Set the navigation bar title
-    navigation.setOptions({ title: name });
-  }, [name, navigation]);
+        left: {
+          backgroundColor: "#FFF"
+        }
+      }}
+    />
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: background }]}>
       <GiftedChat
         messages={messages}
+        renderBubble={renderBubble}
         onSend={(messages) => onSend(messages)}
         user={{
           _id: 1,
