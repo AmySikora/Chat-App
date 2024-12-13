@@ -7,13 +7,33 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  Alert,
 } from "react-native";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
-
   const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"]; // Background color options
+
+  // Function to handle anonymous sign-in
+  const signInUser = () => {
+    const auth = getAuth();
+    signInAnonymously(auth)
+      .then((result) => {
+        const user = result.user;
+        navigation.navigate("Chat", {
+          name,
+          background: backgroundColor,
+          userID: user.uid, // Pass the user ID to the Chat screen
+        });
+        Alert.alert("Signed in successfully!");
+      })
+      .catch((error) => {
+        Alert.alert("Unable to sign in, try again later.");
+        console.error(error);
+      });
+  };
 
   return (
     <ImageBackground
@@ -29,7 +49,7 @@ const Start = ({ navigation }) => {
           {/* Input Field with User Icon */}
           <View style={styles.inputContainer}>
             <Image
-              source={require("../assets/usericon.png")} // Replace with your icon path
+              source={require("../assets/usericon.png")}
               style={styles.icon}
             />
             <TextInput
@@ -57,19 +77,14 @@ const Start = ({ navigation }) => {
             ))}
           </View>
 
-          {/* Button */}
+          {/* Start Chatting Button */}
           <TouchableOpacity
             accessible={true}
-            accessibilityLabel="More options"
-            accessibilityHint="Lets you choose to send an image or your geolocation."
+            accessibilityLabel="Start Chatting"
+            accessibilityHint="Navigates to the chat screen"
             accessibilityRole="button"
             style={styles.button}
-            onPress={() =>
-              navigation.navigate("Chat", {
-                name: name,
-                background: backgroundColor,
-              })
-            }
+            onPress={signInUser} // Use the sign-in function here
           >
             <Text style={styles.buttonText}>Start Chatting</Text>
           </TouchableOpacity>
@@ -110,14 +125,14 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   inputContainer: {
-    flexDirection: "row", 
-    alignItems: "center", 
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: "#757083",
     borderRadius: 5,
     paddingHorizontal: 10,
     backgroundColor: "rgba(255, 255, 255, 0.8)",
-    width: "100%", 
+    width: "100%",
     height: 50,
     marginBottom: 20,
   },
@@ -125,10 +140,10 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: 10,
-    tintColor: "#757083", 
+    tintColor: "#757083",
   },
   textInput: {
-    flex: 1, 
+    flex: 1,
     fontSize: 16,
     fontWeight: "300",
     color: "#757083",
