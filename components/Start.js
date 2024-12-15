@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Image,
   Alert,
+  Platform,
 } from "react-native";
 import { getAuth, signInAnonymously } from "firebase/auth";
 

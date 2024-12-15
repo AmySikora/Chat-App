@@ -58,9 +58,17 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     };    
 
   // Function to handle sending messages
-  const onSend = newMessages => {
-    addDoc(collection(db, "messages"), newMessages[0]);
-  };
+  const onSend = async (newMessages = []) => {
+    if (newMessages.length > 0) {
+      try {
+        await addDoc(collection(db, "messages"), newMessages[0]);
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
+    } else {
+      console.error("No message to send.");
+    }
+  };  
 
   // Custom bubble styling
   const renderBubble = props => (
@@ -84,9 +92,10 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
-        onSend={onSend(messages)}
+        onSend={messages => onSend(messages)}
         user={{ _id: userID, name }}
-      />
+/>
+
       {Platform.OS === "android" ? <KeyboardAvoidingView behavior="height" /> : null}
       {Platform.OS === "iOS" ? <KeyboardAvoidingView behavior="padding" /> : null}
     </View>
