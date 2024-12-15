@@ -38,6 +38,10 @@ const Start = ({ navigation }) => {
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
     <ImageBackground
       source={require("../assets/Background Image.png")}
       style={styles.background}
@@ -89,12 +93,11 @@ const Start = ({ navigation }) => {
             onPress={signInUser} // Use the sign-in function here
           >
             <Text style={styles.buttonText}>Start Chatting</Text>
-          {Platform.OS === "android" ? <KeyboardAvoidingView behavior="height" /> : null}
-          {Platform.OS === "iOS" ? <KeyboardAvoidingView behavior="padding" /> : null}
           </TouchableOpacity>
         </View>
       </View>
     </ImageBackground>
+  </KeyboardAvoidingView>
   );
 };
 
