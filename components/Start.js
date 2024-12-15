@@ -87,6 +87,8 @@ const Start = ({ navigation }) => {
             onPress={signInUser} // Use the sign-in function here
           >
             <Text style={styles.buttonText}>Start Chatting</Text>
+          {Platform.OS === "android" ? <KeyboardAvoidingView behavior="height" /> : null}
+          {Platform.OS === "iOS" ? <KeyboardAvoidingView behavior="padding" /> : null}
           </TouchableOpacity>
         </View>
       </View>
