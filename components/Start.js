@@ -9,6 +9,7 @@ import {
   Image,
   Alert,
   Platform,
+  KeyboardAvoidingView
 } from "react-native";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
