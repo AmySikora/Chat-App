@@ -26,7 +26,8 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       let newMessages = [];
       doumentsSnapshot.forEach(doc => {
         newMessages.push({ _id: doc.id, ...doc.data(),
-          createdAt: doc.data().createdAt.toDate() })
+          createdAt: newDate(doc.data().createdAt.toMills()) 
+        })
       });
 
       cacheMessages(newMessages);
