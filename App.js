@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Import Firebase
 import { initializeApp } from 'firebase/app';
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
+import { getStorage } from "firebase/storage";
 
 // Import Start and Chat components
 import Start from './components/Start';
@@ -41,6 +42,9 @@ const App = () => {
  // Initialize Cloud Firestore and get a reference to the service
  const db = getFirestore(app);
 
+ //Initialize Firebase storage handler
+ const storage = getStorage(app); 
+
  // Monitor network connection status
  useEffect(() => {
   if (connectionStatus.isConnected === false) {
@@ -55,16 +59,15 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Start">
         <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen 
-        name="Chat"
+        <Stack.Screen
+          name="Chat"
         >
-          {props => (
-          <Chat 
-          isConnected={connectionStatus.isConnected}
-          db={db} 
-          {...props} 
-          />
-          )}
+          {props => <Chat
+            isConnected={connectionStatus.isConnected}
+            db={db}
+            storage={storage}
+            {...props}
+          />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

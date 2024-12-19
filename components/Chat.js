@@ -1,78 +1,71 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import { collection, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
 
-// Chet component for real-time messages
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db, isConnected, storage }) => {
   const [messages, setMessages] = useState([]);
-  const { userID, name, background } = route.params; // Extract params from Start.js
+  const { userID, name, background } = route.params;
 
-  let unsubMessages; // variable for onSnapshot unsubscribe function
- 
-  // Fetch messages in real-time
- useEffect(() => {
-  navigation.setOptions({ title: name });
+  useEffect(() => {
+    navigation.setOptions({ title: name });
 
-    if (isConnected === true) {
-      //unregister current onSnaphot() listener to avoid registering multiple listeners when
-      // useEffect code os re-executed
-      if (unsubMessages) unsubMessages();
-      unsubMessages = null;
+    let unsubMessages;
 
-    const q = query(collection(db, "messages"),orderBy("createdAt", "desc"));
-     unsubMessages = onSnapshot(q, (doumentsSnapshot) => {
-      let newMessages = [];
-      doumentsSnapshot.forEach(doc => {
-        newMessages.push({ _id: doc.id, ...doc.data(),
-          createdAt: newDate(doc.data().createdAt.toMills()) 
-        })
+    if (isConnected) {
+      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+
+      unsubMessages = onSnapshot(q, (docs) => {
+        const newMessages = docs.docs.map(doc => ({
+          _id: doc.id,
+          ...doc.data(),
+          createdAt: new Date(doc.data().createdAt.toMillis())
+        }));
+        cacheMessages(newMessages);
+        setMessages(newMessages);
       });
-
-      cacheMessages(newMessages);
-      setMessages(newMessages);
-    });
-    } else loadCachedMessages();
-
-      // Clean up listener
-      return () => {
-        if (unsubMessages) unsubMessages();
-    }
-    }, [isConnected]);
-
-    const cacheMessages = async (messagesToCache) => {
-      try {
-        await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache));
-      } catch (error) {
-        console.log(error.message);
-      }
+    } else {
+      loadCachedMessages();
     }
 
-    const loadCachedMessages = async () => {
-      try {
-        const cachedMessages = await AsyncStorage.getItem("messages");
-        setMessages(cachedMessages ? JSON.parse(cachedMessages) : []);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };    
+    return () => {
+      if (unsubMessages) unsubMessages();
+    };
+  }, [isConnected]);
 
-  // Function to handle sending messages
+  const cacheMessages = async (messagesToCache) => {
+    try {
+      await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache));
+    } catch (error) {
+      console.log("Error caching messages:", error.message);
+    }
+  };
+
+  const loadCachedMessages = async () => {
+    try {
+      const cachedMessages = await AsyncStorage.getItem("messages");
+      if (cachedMessages) setMessages(JSON.parse(cachedMessages));
+    } catch (error) {
+      console.log("Error loading cached messages:", error.message);
+    }
+  };
+
   const onSend = async (newMessages = []) => {
     if (newMessages.length > 0) {
       try {
         await addDoc(collection(db, "messages"), newMessages[0]);
       } catch (error) {
-        console.error("Error adding document: ", error);
+        console.error("Error adding message:", error);
       }
-    } else {
-      console.error("No message to send.");
     }
-  };  
+  };
 
-  // Custom bubble styling
-  const renderBubble = props => (
+  const renderInputToolbar = (props) => (isConnected ? <InputToolbar {...props} /> : null);
+
+  const renderBubble = (props) => (
     <Bubble
       {...props}
       wrapperStyle={{
@@ -82,9 +75,31 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     />
   );
 
-  const renderInputToolbar = (props) => {
-    if (isConnected) return <InputToolbar {...props} />;
-    else return null;
+  const renderCustomActions = (props) => (
+    <CustomActions
+      onSend={onSend}
+      storage={storage}
+      userID={userID}
+      {...props}
+    />
+  );
+
+  const renderCustomView = (props) => {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
   };
 
   return (
@@ -93,12 +108,13 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
-        onSend={messages => onSend(messages)}
+        onSend={onSend}
+        renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
         user={{ _id: userID, name }}
-/>
-
-      {Platform.OS === "android" ? <KeyboardAvoidingView behavior="height" /> : null}
-      {Platform.OS === "iOS" ? <KeyboardAvoidingView behavior="padding" /> : null}
+      />
+      {Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
+      {Platform.OS === 'ios' ? <KeyboardAvoidingView behavior="padding" /> : null}
     </View>
   );
 };
@@ -106,6 +122,12 @@ const Chat = ({ route, navigation, db, isConnected }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  map: {
+    width: 150,
+    height: 100,
+    borderRadius: 13,
+    margin: 3,
   },
 });
 
