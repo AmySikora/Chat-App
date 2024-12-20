@@ -120,13 +120,4 @@ A mobile chat application built with React Native, providing users with a real-t
 ### **Expo Setup**
 - Make sure you have the latest version of Expo CLI installed.
 
-### **Dependency Issues**
-- If `npm install` fails, try running the following:
-  ```bash
-  npm install --legacy-peer-deps
-  ```
-- If the issue persists, try forcing the installation:
-  ```bash
-  npm install --force
-  ```
 
