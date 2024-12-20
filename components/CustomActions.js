@@ -11,6 +11,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
     const options = ["Choose From Library", "Take Picture", "Send Location", "Cancel"];
     const cancelButtonIndex = options.length - 1;
 
+    // Displays an action sheet where users can select and image from the libray, take a picture, send their loaction, and cancel
     actionSheet.showActionSheetWithOptions(
       {
         options,
@@ -33,12 +34,14 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
     );
   };
 
+  // Gernerates a for uploaded images
   const generateReference = (uri) => {
     const timeStamp = new Date().getTime();
     const imageName = uri.split("/").pop(); // Extracts the image name from URI
     return `${userID}-${timeStamp}-${imageName}`;
   };
 
+  // Uploads and stores images in Firebase storage and sends it to chat
   const uploadAndSendImage = async (imageURI) => {
     try {
       const uniqueRefString = generateReference(imageURI);
@@ -61,7 +64,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
       Alert.alert("Failed to upload image", error.message);
     }
   };
-
+ // Alows user to pick an image from their library
   const pickImage = async () => {
     const permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissions.granted) {
@@ -76,6 +79,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
     }
   };
 
+   // Lets the user take a picture from their device camera
   const takePhoto = async () => {
     const permissions = await ImagePicker.requestCameraPermissionsAsync();
     if (permissions.granted) {
@@ -89,7 +93,8 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
       Alert.alert("Permission to access the camera is required.");
     }
   };
-
+ 
+  // Fetched the uesr's location and sends to the chat
   const getLocation = async () => {
     const permissions = await Location.requestForegroundPermissionsAsync();
     if (permissions.granted) {
@@ -114,7 +119,8 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
       Alert.alert("Permission to access location is required.");
     }
   };
-
+ 
+  // Displays buttons that users can press to choose what they would like send to the chat from their device
   return (
     <TouchableOpacity
       accessible={true}

@@ -6,10 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
 
+// Cretes the main screen for real-time messaging 
 const Chat = ({ route, navigation, db, isConnected, storage }) => {
   const [messages, setMessages] = useState([]);
   const { userID, name, background } = route.params;
 
+  // Fetches and listens for messages from Firestore when a user is online
   useEffect(() => {
     navigation.setOptions({ title: name });
 
@@ -31,11 +33,13 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
       loadCachedMessages();
     }
 
+    // Cleanup the listener
     return () => {
       if (unsubMessages) unsubMessages();
     };
   }, [isConnected]);
 
+// Caches user messages locally using AysncStorage
   const cacheMessages = async (messagesToCache) => {
     try {
       await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache));
@@ -44,6 +48,7 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
     }
   };
 
+  // Loads cahched messages when user is offline
   const loadCachedMessages = async () => {
     try {
       const cachedMessages = await AsyncStorage.getItem("messages");
@@ -53,6 +58,7 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
     }
   };
 
+  // Sends messages to Firestore
   const onSend = async (newMessages = []) => {
     if (newMessages.length > 0) {
       try {
@@ -62,9 +68,10 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
       }
     }
   };
-
+ // Displays toolbar
   const renderInputToolbar = (props) => (isConnected ? <InputToolbar {...props} /> : null);
 
+  // Styles chat bubbles
   const renderBubble = (props) => (
     <Bubble
       {...props}
@@ -75,6 +82,7 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
     />
   );
 
+  // Offers users additional options such as image and location
   const renderCustomActions = (props) => (
     <CustomActions
       onSend={onSend}
@@ -84,6 +92,7 @@ const Chat = ({ route, navigation, db, isConnected, storage }) => {
     />
   );
 
+ //  Displays a map of user's current location
   const renderCustomView = (props) => {
     const { currentMessage } = props;
     if (currentMessage.location) {
