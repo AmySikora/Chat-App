@@ -12,6 +12,9 @@ A mobile chat application built with React Native, providing users with a real-t
 - **Offline access**: Read past messages offline.
 - **Customizable theme**: Choose a background color for your chat screen.
 
+![Start Screen](Screenshot-2024-12-20-at-10.41.38-AM.png)
+![Chat Screen](Screenshot-2024-12-20-at-10.44.49-AM.png)
+
 ---
 
 ## **Technologies**
@@ -21,22 +24,22 @@ A mobile chat application built with React Native, providing users with a real-t
 - **Storage**: Firebase Cloud Storage
 
 ### **Libraries**
-- `react-native-gifted-chat` (Chat interface)
-- `expo-image-picker` (Media sharing)
-- `expo-location` (Fetching and sharing location)
-- `@react-native-async-storage/async-storage` (Offline message storage)
+- `react-native-gifted-chat`: Chat interface for React Native.
+- `expo-image-picker`: For selecting or capturing images.
+- `expo-location`: For fetching and sharing location data.
+- `@react-native-async-storage/async-storage`: For offline message storage.
 
 ---
 
 ## **Getting Started**
 
 ### **1. Prerequisites**
-- **Node.js**: Install Node.js using [nvm](https://github.com/nvm-sh/nvm).
+- **Node.js**: Install Node.js **v18.20.4** using [nvm](https://github.com/nvm-sh/nvm).
   ```bash
-  nvm install 16.19.0
-  nvm use 16.19.0
-  nvm alias default 16.19.0
-  ```
+  nvm install 18.20.4
+  nvm use 18.20.4
+  nvm alias default 18.20.4
+
 - **Expo CLI**: Install Expo CLI globally.
   ```bash
   npm install -g expo-cli
@@ -125,8 +128,5 @@ A mobile chat application built with React Native, providing users with a real-t
   ```bash
   npm install --legacy-peer-deps
   ```
-- If the issue persists, try forcing the installation:
-  ```bash
-  npm install --force
-  ```
+
 
