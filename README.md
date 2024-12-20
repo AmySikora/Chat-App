@@ -33,9 +33,9 @@ A mobile chat application built with React Native, providing users with a real-t
 ### **1. Prerequisites**
 - **Node.js**: Install Node.js using [nvm](https://github.com/nvm-sh/nvm).
   ```bash
-  nvm install 16.19.0
-  nvm use 16.19.0
-  nvm alias default 16.19.0
+  nvm install 18.20.4
+  nvm use 18.20.4
+  nvm alias default 18.20.4
   ```
 - **Expo CLI**: Install Expo CLI globally.
   ```bash
