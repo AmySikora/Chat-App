@@ -1,16 +1,16 @@
 # **React Native Mobile Chat App**
 
 ## **Project Description**
-A mobile chat application built with React Native, providing users with a real-time chat interface and additional features such as sharing images and location data. This project demonstrates React Native mobile development skills using Expo and Google Firestore Database.
+Chat-App is a real-time mobile chat application that can be used on iOS and Android devices as it uses React Native. The app allows users to enter their name on the Start screen and to select a background color. Then they can navigate to the Chat screen to send text messages and share images, take a picture, and share their location information using their device's built-in tools. User data is stored online and offline. 
 
 ---
 
 ## **Features**
-- **Real-time messaging**: Send and receive messages instantly.
-- **Media sharing**: Share images from the library or camera.
-- **Location sharing**: Send your current location via the chat interface.
-- **Offline access**: Read past messages offline.
-- **Customizable theme**: Choose a background color for your chat screen.
+- **Real-time messaging**
+- **Image sharing (uploaded from photo library or taken via device camera)**
+- **Location sharing**
+- **Offline access**
+- **Customizable background color**
 
 ---
 
@@ -28,7 +28,7 @@ A mobile chat application built with React Native, providing users with a real-t
 
 ---
 
-## **Getting Started**
+## **Setup Instructions**
 
 ### **1. Prerequisites**
 - **Node.js**: Install Node.js using [nvm](https://github.com/nvm-sh/nvm).
